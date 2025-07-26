@@ -27,6 +27,25 @@ let
       if [ ! -f "$IPKG_FILE" ]; then
           error "  Can't load the ipkg file '$IPKG_FILE'"
       fi
+
+      regex="^\\s*executable\\s*=\\s*([^[:space:]]+)\\s*$"
+      FOUND=false
+
+      while IFS="" read -r p || [ -n "$p" ]
+      do
+
+        if [[ $p =~ $regex ]]
+        then
+          IPKG_EXECUTABLE="''${BASH_REMATCH[1]}"
+          FOUND=true
+          break
+        fi
+
+      done < $IPKG_FILE
+
+      if [[ "$FOUND" == "false" ]]; then
+        error "no executable configured on '$IPKG_FILE'"
+      fi
     else
       error "  Command missing"
     fi
@@ -48,21 +67,7 @@ let
 
       I2_COMMANDS=("--build" $IPKG_FILE)
 
-      regex="^\\s*executable\\s*=\\s*([^[:space:]]*)\\s*$"
-
-      while IFS="" read -r p || [ -n "$p" ]
-      do
-
-        if [[ $p =~ $regex ]]
-        then
-          name="''${BASH_REMATCH[1]}"
-          break
-        fi
-
-        printf '...%s\n' "$p"
-      done < $IPKG_FILE
-
-      EXTRAS="build/exec/$name"
+      EXTRAS="build/exec/$IPKG_EXECUTABLE"
     else
       error "  Command missing"
     fi
