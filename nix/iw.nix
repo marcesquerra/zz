@@ -100,8 +100,6 @@ in
 
     CONTINUE="true"
 
-    ${pkgs.fd}/bin/fd -a -c never -t f --search-path src
-
     while [[ $CONTINUE == "true" ]]; do
       (${pkgs.fd}/bin/fd -c never -t f --search-path src | ${pkgs.entr}/bin/entr -d ${idris2-run}/bin/idris2-run "$@") && CONTINUE="false"
     done
