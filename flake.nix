@@ -14,6 +14,7 @@
   flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {inherit system;};
+      idris2-pkgs = Idris2.packages.${system};
     in
       rec {
 
@@ -23,10 +24,8 @@
         };
 
         devShells = {
-          default = pkgs.mkShell {
-            packages = [
-              pkgs.hello Idris2.packages.${system}.idris2
-            ];
+          default = import ./shell.nix {
+            inherit pkgs idris2-pkgs;
           };
         };
 
