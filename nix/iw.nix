@@ -9,12 +9,19 @@ let
       echo
       echo "USAGE"
       echo "  iw build ipkg-name"
+      echo "  iw run ipkg-name"
       echo
       echo "NOTE: Make sure ipkg-name does not include the 'ipkg' extension"
       exit 1
     }
 
     if [[ "$1" == "build" ]]; then
+      IPKG_FILE="$2.ipkg"
+
+      if [ ! -f "$IPKG_FILE" ]; then
+          error "  Can't load the ipkg file '$IPKG_FILE'"
+      fi
+    elif [[ "$1" == "run" ]]; then
       IPKG_FILE="$2.ipkg"
 
       if [ ! -f "$IPKG_FILE" ]; then
@@ -28,11 +35,34 @@ let
 
     ${validate}
 
+    EXTRAS="true"
+
     if [[ "$1" == "build" ]]; then
       COMMAND_DESCRIPTION="Building"
       IPKG_FILE="$2.ipkg"
 
       I2_COMMANDS=("--build" $IPKG_FILE)
+    elif [[ "$1" == "run" ]]; then
+      COMMAND_DESCRIPTION="Running"
+      IPKG_FILE="$2.ipkg"
+
+      I2_COMMANDS=("--build" $IPKG_FILE)
+
+      regex="^\\s*executable\\s*=\\s*([^[:space:]]*)\\s*$"
+
+      while IFS="" read -r p || [ -n "$p" ]
+      do
+
+        if [[ $p =~ $regex ]]
+        then
+          name="''${BASH_REMATCH[1]}"
+          break
+        fi
+
+        printf '...%s\n' "$p"
+      done < $IPKG_FILE
+
+      EXTRAS="build/exec/$name"
     else
       error "  Command missing"
     fi
@@ -52,7 +82,7 @@ let
     printf "$COMMAND_DESCRIPTION $YELLOW$IPKG_FILE$NC"      && \
     echo                                                    && \
     echo                                                    && \
-    ${idris2} "''${I2_COMMANDS[@]}"
+    ${idris2} "''${I2_COMMANDS[@]}" && $EXTRAS
     EC="$?"
     echo                                                    && \
     printf "Waiting for changes...  (Press <''${BOLD}Ctrl-c''${NC}> to interrupt)  "

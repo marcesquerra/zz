@@ -1,6 +1,6 @@
 package hello
 main = Main
 
-executable = idris2-tutorial
+executable = foo
 sourcedir = "src"
 

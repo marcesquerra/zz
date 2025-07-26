@@ -1,10 +1,10 @@
 module Main
 
-import Control.App
-import Control.App.Console
+maxBits8 : Bits8
+maxBits8 = 255
 
-hello : Console es => App es ()
-hello = putStrLn "Hello, App world!"
+distanceToMax : Bits8 -> Bits8
+distanceToMax n = maxBits8 - n
 
 main : IO ()
-main = run hello
+main = putStrLn "Hello World!!!"
