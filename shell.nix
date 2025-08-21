@@ -1,11 +1,14 @@
-{ pkgs, idris2-pkgs } :
+{ pkgs, idris2-pkgs, system } :
 let
-  idris2-pkg = idris2-pkgs.idris2;
-  iw = import nix/iw.nix pkgs idris2-pkg;
+  ipkgs = idris2-pkgs;
+  iw = import nix/iw.nix pkgs ipkgs.idris2;
 in
   pkgs.mkShell {
     packages = [
-      idris2-pkg
+      ipkgs.idris2
+      ipkgs.idris2Lsp
       iw
     ];
+
+    SYSTEM = system;
   }
