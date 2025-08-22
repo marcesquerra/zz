@@ -202,7 +202,9 @@
         "idris2Lsp": [
           "idris2Lsp"
         ],
-        "idris2PackDbSrc": "idris2PackDbSrc",
+        "idris2PackDbSrc": [
+          "pack-db"
+        ],
         "nixpkgs": "nixpkgs"
       },
       "locked": {
@@ -242,22 +244,6 @@
         "owner": "idris-community",
         "repo": "idris2-lsp",
         "rev": "eba489fbde228a4e7ef423d19236813f7ca7cbac",
-        "type": "github"
-      }
-    },
-    "idris2PackDbSrc": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1754863250,
-        "narHash": "sha256-5tPegPq94RLCjKOf806+YkAdg/S/4F6TSbRgsREXscY=",
-        "owner": "stefan-hoeck",
-        "repo": "idris2-pack-db",
-        "rev": "2d2d67aac9e3f40388e486916a03150ad858aae9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "stefan-hoeck",
-        "repo": "idris2-pack-db",
         "type": "github"
       }
     },
@@ -337,12 +323,30 @@
         "type": "github"
       }
     },
+    "pack-db": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754863250,
+        "narHash": "sha256-5tPegPq94RLCjKOf806+YkAdg/S/4F6TSbRgsREXscY=",
+        "owner": "stefan-hoeck",
+        "repo": "idris2-pack-db",
+        "rev": "2d2d67aac9e3f40388e486916a03150ad858aae9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stefan-hoeck",
+        "repo": "idris2-pack-db",
+        "rev": "2d2d67aac9e3f40388e486916a03150ad858aae9",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "idris2-packages-set": "idris2-packages-set",
         "idris2Lsp": "idris2Lsp",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_3",
+        "pack-db": "pack-db"
       }
     },
     "rust-analyzer-src": {
