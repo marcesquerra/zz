@@ -22,11 +22,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v25
         # Mostly to avoid GitHub rate limiting
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: marcesquerra
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+
       # Note: this would only work if Cargo is included in the Nix shell
       - name: Build release
         run: nix develop --command echo "hello"
