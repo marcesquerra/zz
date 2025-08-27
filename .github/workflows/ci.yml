@@ -33,7 +33,6 @@ jobs:
           name: marcesquerra
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-      # Note: this would only work if Cargo is included in the Nix shell
-      - name: Build release
-        run: nix develop --command echo "hello"
+      - name: Run tests
+        run: WORKSPACE=$PWD nix develop --command ci test
 
